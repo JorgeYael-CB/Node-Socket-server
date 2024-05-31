@@ -5,7 +5,8 @@ import { Ticket } from "../../domain/interfaces";
 
 export class TicketService {
 
-    private readonly tickets:Ticket[] = [
+    private readonly workingOnTickets:Ticket[] = [];
+    public readonly tickets:Ticket[] = [
         { id: UuidAdaper.v4(), number: 1, createAt: new Date(), done: false },
         { id: UuidAdaper.v4(), number: 2, createAt: new Date(), done: false },
         { id: UuidAdaper.v4(), number: 3, createAt: new Date(), done: false },
@@ -19,8 +20,13 @@ export class TicketService {
         return this.tickets.filter( ticket => !ticket.handleAtDesk );
     };
 
+    public get lastWorkingOnTickets():Ticket[] {
+        //* Extraemos los primeros 4 tickets
+        return this.workingOnTickets.slice(0, 4);
+    };
 
-    public lastTicketNumber(){
+
+    public get lastTicketNumber(){
         return this.tickets.length > 0 ? this.tickets.at(-1)!.number : 0;
     };
 
@@ -29,7 +35,7 @@ export class TicketService {
         const newTicket:Ticket = {
             createAt: new Date(),
             id: UuidAdaper.v4(),
-            number: this.lastTicketNumber() + 1,
+            number: this.lastTicketNumber + 1,
             done: false,
         };
 
@@ -45,6 +51,8 @@ export class TicketService {
 
         ticket.handleAtDesk = desk;
         ticket.handleAt = new Date();
+
+        this.workingOnTickets.unshift({...ticket});
 
         // TODO: ws
 
