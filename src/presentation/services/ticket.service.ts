@@ -59,6 +59,7 @@ export class TicketService {
         this.workingOnTickets.unshift({...ticket});
 
         // TODO: ws
+        this.onTicketNumberChanged();
 
         return {
             status: 'ok',
