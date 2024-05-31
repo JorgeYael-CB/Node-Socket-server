@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import { TicketService } from "../services/ticket.service";
 
 
+
 export class TicketController {
 
     // DI - WssService
     constructor(
-        private readonly ticketService: TicketService,
+        private readonly ticketService = new TicketService(),
     ){};
 
 

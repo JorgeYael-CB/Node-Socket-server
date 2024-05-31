@@ -1,10 +1,7 @@
 import { Router } from "express";
 import { TicketController } from "./controller";
 import { TicketService } from '../services/ticket.service';
-
-
-
-const ticketService:TicketService = new TicketService();
+import { WssService } from "../services/wss.service";
 
 
 
@@ -12,7 +9,7 @@ export class TicketRoutes {
 
     static get routes():Router{
         const routes = Router();
-        const ticketController = new TicketController(ticketService);
+        const ticketController = new TicketController();
 
 
         routes.get('/', ticketController.getTickets);

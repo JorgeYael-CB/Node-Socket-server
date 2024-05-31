@@ -31,9 +31,6 @@ export class Server {
     //* Public Folder
     this.app.use( express.static( this.publicPath ) );
 
-    //* Routes
-    // this.app.use( this.routes );
-
     //* SPA
     this.app.get(/^\/(?!api).*/, (req, res) => {
       const indexPath = path.join( __dirname + `../../../${ this.publicPath }/index.html` );

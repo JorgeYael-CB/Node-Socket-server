@@ -29,10 +29,9 @@ function connectToWebSockets() {
     socket.onopen = ( event ) => {
       console.log( 'Connected' );
     };
+}
 
-  }
-
-  connectToWebSockets();
+connectToWebSockets();
 
 
 
