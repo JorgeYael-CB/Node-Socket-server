@@ -1,9 +1,13 @@
 import { UuidAdaper } from "../../config";
 import { Ticket } from "../../domain/interfaces";
-
+import { WssService } from "./wss.service";
 
 
 export class TicketService {
+
+    constructor(
+        private readonly wssService = WssService.instance,
+    ){};
 
     private readonly workingOnTickets:Ticket[] = [];
     public readonly tickets:Ticket[] = [
@@ -21,7 +25,6 @@ export class TicketService {
     };
 
     public get lastWorkingOnTickets():Ticket[] {
-        //* Extraemos los primeros 4 tickets
         return this.workingOnTickets.slice(0, 4);
     };
 
@@ -40,7 +43,8 @@ export class TicketService {
         };
 
         this.tickets.push( newTicket );
-        // TODO: ws
+        this.onTicketNumberChanged();
+
         return newTicket;
     };
 
@@ -77,5 +81,10 @@ export class TicketService {
         })
 
         return {status: 'ok', message: `ticket finished with id: ${id}`};
+    };
+
+
+    private onTicketNumberChanged() {
+        this.wssService.sendMessage('on-ticket-count-changed', this.tickets.length);
     };
 }
